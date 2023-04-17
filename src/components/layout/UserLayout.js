@@ -12,6 +12,12 @@ export const UserLayout = ({ children }) => {
         <div className="sidbar  fw-boler ">
           <ul>
             {/* for admin only  */}
+
+            <li>
+              <Link className="nav-link" to="/dashboard">
+                Dashboard
+              </Link>{" "}
+            </li>
             <li>
               <Link className="nav-link" to="/books">
                 Books
@@ -29,11 +35,7 @@ export const UserLayout = ({ children }) => {
                 History
               </Link>
             </li>
-            <li>
-              <Link className="nav-link" to="/dashboard">
-                Dashboard
-              </Link>{" "}
-            </li>
+
             <li>
               <Link className="nav-link" to="/profile">
                 Profile
