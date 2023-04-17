@@ -1,6 +1,9 @@
 :root {
   --mainBg: rgb(178, 203, 254);
 }
+* {
+  box-sizing: border-box;
+}
 
 body {
   background: var(--mainBg) !important;
@@ -26,4 +29,26 @@ body {
   text-decoration: none;
   font-weight: bolder;
   font-size: 1.6rem;
+}
+
+.use-layout {
+  display: flex;
+}
+
+.left {
+  color: white;
+  min-width: 200px;
+  position: fixed;
+  height: 100%;
+}
+
+.right {
+  background: white;
+  width: 100%;
+  margin-left: 200px;
+}
+
+.sidbar li {
+  list-style: none;
+  line-height: 3rem;
 }
