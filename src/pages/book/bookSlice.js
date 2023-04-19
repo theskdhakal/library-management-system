@@ -8,6 +8,8 @@ const bookSlice = createSlice({
   initialState,
   reducers: {
     setbook: (state, action) => {
+      console.log(action);
+      if (!state.book.length && !action.payload.length) return;
       state.book = action.payload;
     },
   },

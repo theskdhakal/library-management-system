@@ -15,6 +15,7 @@ import { Books } from "./pages/book/Books";
 import { History } from "./pages/history/History";
 import { Clients } from "./pages/clients/Clients";
 import { useEffect } from "react";
+import { BookLanding } from "./pages/book/BookLanding";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/book/:bookId" element={<BookLanding />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="dashboard" element={<Dashboard />} />
