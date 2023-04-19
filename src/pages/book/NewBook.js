@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useDebugValue, useState } from "react";
 import { PrivateRoute } from "../../components/private-route/PrivateRoute";
 import { UserLayout } from "../../components/layout/UserLayout";
 import { Button, Container } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addNewBookAction } from "./bookAction";
 
 export const NewBook = () => {
+  const dispatch = useDispatch();
   const [frm, setFrm] = useState({});
 
   const handleOnChange = (e) => {
@@ -17,6 +20,7 @@ export const NewBook = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    dispatch(addNewBookAction(frm));
   };
 
   const inputs = [
@@ -65,7 +69,7 @@ export const NewBook = () => {
           <h3>NewBook</h3>
 
           <Link to="/books">
-            {/* <Button variant="secondary">&lt; Back</Button> */}
+            <Button variant="secondary">&lt; Back</Button>
           </Link>
           <hr />
 
