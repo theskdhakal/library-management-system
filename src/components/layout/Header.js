@@ -5,8 +5,18 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
 import { GoSignIn, GoSignOut } from "react-icons/go";
 import { FaUserEdit } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firbease-config";
 
 export const Header = () => {
+  const { user } = useSelector((state) => state.user);
+
+  const handleOnLogout = ({ user }) => {
+    signOut(auth).then(() => {
+      //set user state to empty{}
+    });
+  };
   return (
     <Navbar bg="dark" variant="dark" expand="md">
       <Container>
@@ -16,13 +26,14 @@ export const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
+            {}
             <Link to="/signin" className="nav-link">
               <GoSignIn className="fs-3" />
             </Link>
             <Link to="/signup" className="nav-link">
               <FaUserEdit className="fs-3" />
             </Link>
-            <Link to="/signout" className="nav-link">
+            <Link to="#" className="nav-link" onClick={handleOnLogout}>
               <GoSignOut className="fs-3" />
             </Link>
           </Nav>
