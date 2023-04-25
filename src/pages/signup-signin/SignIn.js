@@ -3,12 +3,12 @@ import { MainLayout } from "../../components/layout/MainLayout";
 import { Button, Container, Form } from "react-bootstrap";
 import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../config/firbease-config";
 import { doc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "./userAction";
 import { useNavigate } from "react-router-dom";
+
 const SignIn = () => {
   const dispatch = useDispatch();
   const [frm, setFrm] = useState({});

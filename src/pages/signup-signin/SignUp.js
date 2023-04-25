@@ -35,7 +35,7 @@ const SignUp = () => {
 
       const { user } = await pendingUser;
       if (user?.uid) {
-        await setDoc(doc(db, "users", user.uid), rest);
+        await setDoc(doc(db, "users", user.uid), { rest });
 
         return toast.success("your acccound has been registered.");
       }
