@@ -8,10 +8,11 @@ import {
   getDocs,
   query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { auth, db } from "../../config/firbease-config";
-import { setBook } from "./BookSlic";
+import { setBook, setBurrowHistory } from "./BookSlic";
 import { setModalShow } from "../../system/systemSlice";
 
 export const getAllBooksActions = () => async (dispatch) => {
@@ -115,5 +116,27 @@ export const createNewBurrowBookAction = (obj) => async (dispatch) => {
     console.log(error);
 
     toast.error(error.message);
+  }
+};
+
+//pull data from database and add to the redux store for the specific user based on uid
+export const getBurrowHistoryAction = (userId) => async (dispatch) => {
+  try {
+    const q = query(
+      collection(db, "burrow_history"),
+      where("userId", "==", userId)
+    );
+    const { docs } = await getDocs(q);
+
+    let burrowHistory = [];
+    docs.forEach((item) => {
+      burrowHistory.push({ ...item.data(), id: item.id });
+    });
+
+    console.log(burrowHistory);
+
+    dispatch(setBurrowHistory(burrowHistory));
+  } catch (error) {
+    console.log("this error");
   }
 };
