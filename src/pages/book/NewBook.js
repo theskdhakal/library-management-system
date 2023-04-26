@@ -1,26 +1,25 @@
-import React, { useDebugValue, useState } from "react";
+import React, { useState } from "react";
 import { PrivateRoute } from "../../components/private-route/PrivateRoute";
+import { Button, Container, Form } from "react-bootstrap";
 import { UserLayout } from "../../components/layout/UserLayout";
-import { Button, Container } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 import { Link } from "react-router-dom";
+import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 import { useDispatch } from "react-redux";
 import { addNewBookAction } from "./bookAction";
 
-export const NewBook = () => {
+const NewBook = () => {
   const dispatch = useDispatch();
-  const [frm, setFrm] = useState({});
+  const [form, setForm] = useState({});
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
 
-    setFrm({ ...frm, [name]: value });
+    setForm({ ...form, [name]: value });
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addNewBookAction(frm));
+    dispatch(addNewBookAction(form));
   };
 
   const inputs = [
@@ -28,29 +27,29 @@ export const NewBook = () => {
       label: "Book Title",
       name: "title",
       type: "text",
-      placeholder: "Clean Code",
+      placeholder: "Clean code",
       required: true,
     },
     {
-      label: "Author Name",
+      label: "Auther Name",
       name: "name",
       type: "text",
       placeholder: "Sam smith",
       required: true,
     },
     {
-      label: "Published Date",
+      label: "Published Year",
       name: "year",
       type: "number",
-      placeholder: 2020,
       required: true,
+      placeholder: "2020",
     },
 
     {
       label: "Image Url",
       name: "url",
       type: "url",
-      placeholder: "http:/image-url.com",
+      placeholder: "http://imge-url.com",
       required: true,
     },
     {
@@ -58,6 +57,7 @@ export const NewBook = () => {
       name: "summary",
       type: "text",
       as: "textarea",
+      rows: "5",
       required: true,
     },
   ];
@@ -66,19 +66,20 @@ export const NewBook = () => {
     <PrivateRoute>
       <UserLayout>
         <Container>
-          <h3>NewBook</h3>
+          <h3>New Book</h3>
 
           <Link to="/books">
             <Button variant="secondary">&lt; Back</Button>
           </Link>
+
           <hr />
 
           <Form
             onSubmit={handleOnSubmit}
             className="border p-5 shadow-lg rounded m-auto bg-light  mb-3"
-            style={{ width: "400px" }}
+            style={{ width: "500px" }}
           >
-            <h3 className="text-primary fw-bolder mb-3">Add New Book</h3>
+            <h3 className="text-primary fw-bolder mb-3">Add new book</h3>
 
             <div className="mt-5">
               {inputs.map((item, i) => (
@@ -97,3 +98,5 @@ export const NewBook = () => {
     </PrivateRoute>
   );
 };
+
+export default NewBook;

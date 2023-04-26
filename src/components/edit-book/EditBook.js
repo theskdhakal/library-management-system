@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PrivateRoute } from "../private-route/PrivateRoute";
 import { Button, Container, Form } from "react-bootstrap";
 import { UserLayout } from "../layout/UserLayout";
 import { Link } from "react-router-dom";
 import { CustomInpute } from "../custom-inpute/CustomInpute";
 import { useDispatch } from "react-redux";
-import { addNewBookAction } from "../../pages/book/bookSlice";
+import { addNewBookAction } from "../../pages/book/BookSlic";
+import {
+  updateBookAction,
+  deleteBookAction,
+} from "../../pages/book/bookAction";
 
 export const EditBook = ({ selectedBook }) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({});
+  useEffect(() => {
+    setForm(selectedBook);
+  }, []);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +26,15 @@ export const EditBook = ({ selectedBook }) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    // dispatch(addNewBookAction(form));
+    if (window.confirm("Are you sure, you want to update this book?")) {
+      dispatch(updateBookAction(form));
+    }
+  };
+
+  const handleOnDelete = () => {
+    if (window.confirm("Are you sure, you want to update this book?")) {
+      dispatch(deleteBookAction(form.id));
+    }
   };
 
   const inputs = [
@@ -29,7 +44,7 @@ export const EditBook = ({ selectedBook }) => {
       type: "text",
       placeholder: "Clean code",
       required: true,
-      value: selectedBook?.title,
+      value: form?.title,
     },
     {
       label: "Auther Name",
@@ -37,6 +52,7 @@ export const EditBook = ({ selectedBook }) => {
       type: "text",
       placeholder: "Sam smith",
       required: true,
+      value: form?.name,
     },
     {
       label: "Published Year",
@@ -44,6 +60,7 @@ export const EditBook = ({ selectedBook }) => {
       type: "number",
       required: true,
       placeholder: "2020",
+      value: form?.year,
     },
 
     {
@@ -52,6 +69,7 @@ export const EditBook = ({ selectedBook }) => {
       type: "url",
       placeholder: "http://imge-url.com",
       required: true,
+      value: form?.url,
     },
     {
       label: "Summary",
@@ -60,6 +78,7 @@ export const EditBook = ({ selectedBook }) => {
       as: "textarea",
       rows: "5",
       required: true,
+      value: form?.summary,
     },
   ];
 
@@ -82,6 +101,11 @@ export const EditBook = ({ selectedBook }) => {
           </div>
         </div>
       </Form>
+      <div className="d-grid">
+        <Button variant="danger" type="submit" onClick={handleOnDelete}>
+          Delete Book
+        </Button>
+      </div>
     </Container>
   );
 };

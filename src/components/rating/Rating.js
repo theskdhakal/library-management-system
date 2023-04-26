@@ -1,12 +1,13 @@
 import React from "react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
-const maxRate = 5;
+const maxtRate = 5;
 
-export const Rating = ({ rate = 5 }) => {
+export const Rating = ({ rate = 3 }) => {
   const hasDecimalValue = rate % 1;
+
   const fullRateStar = Math.floor(rate);
   const noRate =
-    hasDecimalValue > 0 ? maxRate - fullRateStar - 1 : maxRate - fullRateStar;
+    hasDecimalValue > 0 ? maxtRate - fullRateStar - 1 : maxtRate - fullRateStar;
 
   const fullStar = new Array(fullRateStar).fill("");
   const noRateStar = new Array(noRate).fill("");
@@ -23,3 +24,5 @@ export const Rating = ({ rate = 5 }) => {
     </div>
   );
 };
+
+// 5 4 3.33

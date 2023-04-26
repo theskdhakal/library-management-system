@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MainLayout } from "../../components/layout/MainLayout";
 import { HomeCarousel } from "../../components/carousel/HomeCarousel";
 import { Col, Container, Row } from "react-bootstrap";
@@ -8,51 +8,49 @@ import { getAllBooksActions } from "../book/bookAction";
 import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 
 const Home = () => {
-  const { book } = useSelector((state) => state.books);
   const dispatch = useDispatch();
-
-  //create loacl display state and adding book to it, initially
-
   const [display, setDisplay] = useState([]);
+  const { book } = useSelector((state) => state.books);
 
   useEffect(() => {
     !display.length && dispatch(getAllBooksActions());
     setDisplay(book);
   }, [dispatch, book]);
 
-  //on handle change, get typed value
+  // on handle change get typed value
 
-  const handleOnSearch = (e) => {
+  const handleOnChange = (e) => {
     const { value } = e.target;
+
     const filteredItem = book.filter((item) =>
-      item.title.tolowerCase().includes(value.tolowerCase())
+      item.title.toLowerCase().includes(value.toLowerCase())
     );
     setDisplay(filteredItem);
   };
-  //use filter to fiter book based on typed value
-  //override display state
-  //use display state to loop through
+  // use filter to filter book based on the typed value overide display state
+  //use display statet to loop throught
 
   return (
     <MainLayout>
       <HomeCarousel />
-
       <Container className="mt-4">
         <Row>
           <Col>
-            <h1>Explore the library</h1>
-            <div className="d-flex justify-content-between flex-wrap gap-2">
-              <div>{display.length}Books found!</div>
+            <h1>Exlopre the library</h1>
+            <div className="d-flex justify-content-between mt-5">
+              <div> {display.length} Books found!</div>
               <CustomInpute
-                placeholder="search book by title"
-                className=""
-                onChange={handleOnSearch}
+                placeholder="Search book by title"
+                className=" "
+                onChange={handleOnChange}
               />
             </div>
             <hr />
-            {display.map((item) => (
-              <CustomCard key={item.id} {...item} />
-            ))}
+            <div className=" d-flex justify-content-between flex-wrap gap-2">
+              {display.map((item) => (
+                <CustomCard key={item.id} {...item} />
+              ))}
+            </div>
           </Col>
         </Row>
       </Container>

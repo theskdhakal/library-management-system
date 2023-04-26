@@ -6,40 +6,42 @@ import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../config/firbease-config";
 import { doc, setDoc } from "firebase/firestore";
+
 const SignUp = () => {
-  const [frm, setFrm] = useState({});
+  const [form, setForm] = useState({});
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
 
-    setFrm({ ...frm, [name]: value });
+    setForm({ ...form, [name]: value });
   };
 
   const handleOnSubmit = async (e) => {
     try {
       e.preventDefault();
 
-      const { confirmPassword, password, ...rest } = frm;
+      const { confirmPassword, password, ...rest } = form;
       if (confirmPassword !== password)
-        return toast.error("password Do   not match");
+        return toast.error("Password do not match");
 
-      //register
+      //regist
       const pendingUser = createUserWithEmailAndPassword(
         auth,
         rest.email,
         password
       );
       toast.promise(pendingUser, {
-        pending: "please wait",
+        pending: "Please wait...",
       });
 
       const { user } = await pendingUser;
       if (user?.uid) {
-        await setDoc(doc(db, "users", user.uid), { rest });
-
-        return toast.success("your acccound has been registered.");
+        await setDoc(doc(db, "users", user.uid), rest);
+        return toast.success(
+          "Your account has been creted successfull, Please login in now!"
+        );
       }
-      return toast.error("error, please try again later");
+      toast.error("Error, lease try again later");
     } catch (error) {
       toast.error(error.message);
     }
@@ -116,7 +118,7 @@ const SignUp = () => {
 
             <div className="d-grid">
               <Button variant="primary" type="submit">
-                Register Now!
+                Regist Now!
               </Button>
             </div>
           </div>

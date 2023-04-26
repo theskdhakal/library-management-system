@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./pages/signup-signin/userSlice";
-import bookReducer from "./pages/book/bookSlice";
+import userReducer from "./pages/signup-signin/userSlic";
+import bookReducer from "./pages/book/BookSlic";
 import systemReducer from "./system/systemSlice";
 
 export default configureStore({

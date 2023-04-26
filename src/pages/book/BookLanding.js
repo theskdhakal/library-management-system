@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { MainLayout } from "../../components/layout/MainLayout";
-import { useNavigate, useParams } from "react-router-dom";
-import { Col, Container, Row, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { Rating } from "../../components/custom-card/rating/Rating";
-import { Review } from "../../components/review/Review";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import { Rating } from "../../components/rating/Rating";
+import { Revies } from "../../components/review/Revies";
+import { createNewBurrowBookAction } from "./bookAction";
 
-export const BookLanding = () => {
+const BookLanding = () => {
+  const dispatch = useDispatch();
   const { bookId } = useParams();
   const navigate = useNavigate();
 
@@ -18,43 +20,72 @@ export const BookLanding = () => {
       navigate("/");
     }
   });
+
   const selectedBook = book.find((item) => item.id === bookId) || {};
 
-  const { id, title, name, year, summary, url } = selectedBook;
+  const { id, title, name, year, summary, url, isAvailable } = selectedBook;
 
   const handleOnBurrow = () => {
-    if (!user.uid) {
-      return alert("please login to burrow the book");
+    const { uid, fName } = user;
+    if (user.uid) {
+      // create burrowhistory table and add following object
+      const defaultBurrowDay = 14;
+      const obj = {
+        bookId,
+        bookName: title,
+        userName: fName,
+        userId: uid,
+        burrowingAt: Date.now(),
+        returnAt: Date.now() + defaultBurrowDay * 24 * 60 * 60 * 1000,
+        hasReturned: false,
+      };
+
+      dispatch(createNewBurrowBookAction(obj));
+      return;
     }
+    alert("Please login to burrow the book");
   };
 
-  console.log(selectedBook);
   return (
     <MainLayout>
-      <Container>
+      <Link to="/">
+        <Button variant="secondary">&lt; Back</Button>
+      </Link>
+      <Container className="mt-5 pt-5">
         <Row>
-          <Col>
+          <Col md="4">
             <img src={url} width="100%" alt="" />
           </Col>
           <Col>
-            <h1>title</h1>
+            <h1>{title}</h1>
             <p>
-              {name}-{year}
+              {name} - {year}
               <Rating />
             </p>
             <p>
-              <Button onClick={handleOnBurrow}>Burrow Now!</Button>
+              {!user?.uid ? (
+                <Button disabled={true}>Login to burrow</Button>
+              ) : isAvailable ? (
+                <Button onClick={handleOnBurrow}>Burrow Now</Button>
+              ) : (
+                <Button variant="info" disabled>
+                  Available From: 10/5/2023
+                </Button>
+              )}
             </p>
-            <p>Summary:{summary}</p>
+            <div className="mt-3">Summary: {summary}</div>
           </Col>
         </Row>
 
-        <Row>
+        <Row className="mt-5">
           <Col>
             <h4>Reviews</h4>
-
-            <div className="review-List">
-              <Review />
+            <div className="review-list">
+              <Revies />
+              <Revies />
+              <Revies />
+              <Revies />
+              <Revies />
             </div>
           </Col>
         </Row>
@@ -62,3 +93,5 @@ export const BookLanding = () => {
     </MainLayout>
   );
 };
+
+export default BookLanding;

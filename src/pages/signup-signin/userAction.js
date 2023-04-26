@@ -1,24 +1,24 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { auth, db } from "../../config/firbease-config";
-import { setUser } from "./userSlice";
-import { doc, getDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { setUser } from "./userSlic";
 
 export const getUserAction = (uid) => async (dispatch) => {
   try {
-    //get user id from firebase
-    const userRef = doc(db, "users", uid);
+    // get user by id from firebase
 
-    const docSnap = await getDoc(userRef);
+    const docSnap = await getDoc(doc(db, "users", uid));
 
-    //dispatch user to the redux
+    console.log(docSnap);
+    //dispatch user to the reduxt
 
     if (docSnap.exists()) {
       const user = { ...docSnap.data(), uid };
       dispatch(setUser(user));
     }
   } catch (error) {
-    toast.error(error.message);
+    toast.error(error.messge);
   }
 };
 //create new user
@@ -31,7 +31,7 @@ export const loginUser = (data) => async (dispatch) => {
     );
 
     toast.promise(pendingUser, {
-      pending: "please wait...",
+      pending: "Please wait...",
     });
 
     const { user } = await pendingUser;

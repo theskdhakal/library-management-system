@@ -3,6 +3,7 @@ import { MainLayout } from "../../components/layout/MainLayout";
 import { Button, Container, Form } from "react-bootstrap";
 import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 import { toast } from "react-toastify";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../config/firbease-config";
 import { doc, setDoc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,25 +12,24 @@ import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const [frm, setFrm] = useState({});
-  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const [form, setForm] = useState({});
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    user?.uid && navigate("/Dashboard");
-  }, [user]);
+    user?.uid && navigate("/dashboard");
+  }, [user.uid]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
 
-    setFrm({ ...frm, [name]: value });
+    setForm({ ...form, [name]: value });
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(frm);
 
-    dispatch(loginUser(frm));
+    dispatch(loginUser(form));
   };
 
   const inputs = [
@@ -57,7 +57,9 @@ const SignIn = () => {
           className="border p-5 shadow-lg rounded m-auto bg-light  mb-3"
           style={{ width: "400px" }}
         >
-          <h3 className="text-primary fw-bolder mb-3">Welcome back!!</h3>
+          <h3 className="text-primary fw-bolder mb-3">
+            Welcome Back to Comunity
+          </h3>
 
           <div className="mt-5">
             {inputs.map((item, i) => (
@@ -66,7 +68,7 @@ const SignIn = () => {
 
             <div className="d-grid">
               <Button variant="primary" type="submit">
-                Login!
+                Login Now!
               </Button>
             </div>
           </div>

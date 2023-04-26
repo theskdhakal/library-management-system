@@ -7,52 +7,50 @@ export const UserLayout = ({ children }) => {
   return (
     <div className="use-layout">
       <div className="left bg-dark p-2 pt-5">
-        <div className="title mt-5 fs-2">User Name</div>
-        <hr />
-        <div className="sidbar  fw-boler ">
-          <ul>
-            {/* for admin only  */}
+        <div className="title mt-3 fs-2">user Name</div>
 
+        <hr />
+        <div className="sidbar fw-bolder ">
+          <ul>
             <li>
               <Link className="nav-link" to="/dashboard">
                 Dashboard
-              </Link>{" "}
+              </Link>
             </li>
             <li>
               <Link className="nav-link" to="/books">
                 Books
-              </Link>{" "}
+              </Link>
             </li>
             <li>
               <Link className="nav-link" to="/clients">
                 Clients
-              </Link>{" "}
-            </li>
-
-            {/* for all user type */}
-            <li>
-              <Link className="nav-link" to="/History">
-                History
               </Link>
             </li>
 
             <li>
+              <Link className="nav-link" to="/history">
+                History
+              </Link>
+            </li>
+            <li>
               <Link className="nav-link" to="/profile">
                 Profile
-              </Link>{" "}
+              </Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="right">
-        {" "}
-        {/* Header section */}
         <Header />
+
         {/* main content area */}
-        <div className="main pt-5">{children}</div>
+        <div className="main pt-3">{children}</div>
+
         {/* footer sectio */}
         <Footer />
       </div>
+      {/* Header section */}
     </div>
   );
 };

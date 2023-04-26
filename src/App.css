@@ -1,9 +1,6 @@
 :root {
   --mainBg: rgb(178, 203, 254);
 }
-* {
-  box-sizing: border-box;
-}
 
 body {
   background: var(--mainBg) !important;
@@ -37,6 +34,7 @@ body {
 
 .left {
   color: white;
+  /* width: 30%; */
   min-width: 200px;
   position: fixed;
   height: 100%;
@@ -44,15 +42,15 @@ body {
 
 .right {
   background: white;
-  width: 100%;
-  margin-left: 200px;
+  width: calc(100% - 200px);
+  margin-left: auto;
 }
 
 .sidbar li {
-  list-style: none;
+  list-style-type: none;
   line-height: 3rem;
 }
 
-.table {
+table {
   text-align: left;
 }

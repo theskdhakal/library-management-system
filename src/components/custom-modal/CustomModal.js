@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalShow } from "../../system/systemSlice";
@@ -10,7 +12,6 @@ export const CustomModal = ({ heading, children }) => {
       <Modal
         show={modalShow}
         onHide={() => dispatch(setModalShow(false))}
-        onClos
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
