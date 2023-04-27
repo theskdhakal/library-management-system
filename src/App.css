@@ -54,3 +54,15 @@ body {
 table {
   text-align: left;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.grid-item {
+  background-color: #ccc;
+  padding: 20px;
+  text-align: center;
+}

@@ -119,24 +119,62 @@ export const createNewBurrowBookAction = (obj) => async (dispatch) => {
   }
 };
 
-//pull data from database and add to the redux store for the specific user based on uid
-export const getBurrowHistoryAction = (userId) => async (dispatch) => {
+export const getBurrowBookAction = (userId) => async (dispatch) => {
   try {
     const q = query(
       collection(db, "burrow_history"),
       where("userId", "==", userId)
     );
-    const { docs } = await getDocs(q);
+    const docSnapshot = await getDocs(q);
 
-    let burrowHistory = [];
-    docs.forEach((item) => {
-      burrowHistory.push({ ...item.data(), id: item.id });
+    let burrow = [];
+
+    docSnapshot.forEach((doc) => {
+      const id = doc.id;
+      const data = doc.data();
+
+      console.log(data);
+
+      burrow.push({
+        ...data,
+        id,
+      });
     });
 
-    console.log(burrowHistory);
-
-    dispatch(setBurrowHistory(burrowHistory));
+    console.log(burrow);
+    dispatch(setBurrowHistory(burrow));
   } catch (error) {
-    console.log("this error");
+    console.log(error);
+
+    toast.error(error.message);
+  }
+};
+
+// return book
+export const returnBookAction = (bookId, bhId, userId) => async (dispatch) => {
+  try {
+    // update burrow_history table
+
+    const updateBHObj = {
+      returnAt: Date.now(),
+      hasReturned: true,
+    };
+
+    await setDoc(doc(db, "burrow_history", bhId), updateBHObj, { merge: true });
+
+    // upate book table
+    const updateBookObj = {
+      availableFrom: null,
+      isAvailable: true,
+    };
+    await setDoc(doc(db, "books", bookId), updateBookObj, { merge: true });
+
+    toast.success("You have return the book");
+
+    dispatch(getAllBooksActions());
+    dispatch(getBurrowBookAction(userId));
+  } catch (error) {
+    toast.success(error.message);
+    console.log(error);
   }
 };
