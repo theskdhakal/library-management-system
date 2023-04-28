@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllBooksActions,
-  getBurrowHistoryAction,
-} from "../../pages/book/bookAction";
+import { getBurrowBookAction } from "../../pages/book/bookAction";
 import { Button } from "react-bootstrap";
 
 export const HistoryTable = () => {
@@ -15,7 +12,7 @@ export const HistoryTable = () => {
   const { burrowHistory } = useSelector((state) => state.books);
   //   console.log(user);
   useEffect(() => {
-    dispatch(getBurrowHistoryAction(user.uid));
+    dispatch(getBurrowBookAction(user.uid));
   }, [dispatch, user]);
 
   return (
