@@ -1,5 +1,5 @@
 :root {
-  --mainBg: rgb(178, 203, 254);
+  --mainBg: rgb(136, 173, 245);
 }
 
 body {
@@ -33,7 +33,7 @@ body {
 }
 
 .left {
-  color: white;
+  color: rgb(253, 253, 253);
   /* width: 30%; */
   min-width: 200px;
   position: fixed;
@@ -48,7 +48,7 @@ body {
 
 .sidbar li {
   list-style-type: none;
-  line-height: 3rem;
+  line-height: 3.5rem;
 }
 
 table {
