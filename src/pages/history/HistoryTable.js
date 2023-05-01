@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { getBurrowBookAction } from "../../pages/book/bookAction";
+import {
+  getBurrowBookAction,
+  returnBookAction,
+} from "../../pages/book/bookAction";
 import { Button } from "react-bootstrap";
 
 export const HistoryTable = () => {
@@ -15,6 +18,12 @@ export const HistoryTable = () => {
     dispatch(getBurrowBookAction(user.uid));
   }, [dispatch, user]);
 
+  const handleOnReturn = ({ id, bookId, userId }) => {
+    if (window.confirm("Are you sure want to return the book")) {
+      dispatch(returnBookAction(bookId, id, userId));
+    }
+  };
+
   return (
     <>
       <Table striped bordered hover>
@@ -23,7 +32,6 @@ export const HistoryTable = () => {
             <th>Books</th>
             <th>Borrow Date</th>
             <th>Return Date</th>
-            <th>Available Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -31,11 +39,19 @@ export const HistoryTable = () => {
           {burrowHistory.map((item) => (
             <tr>
               <td>{item.bookName}</td>
-              <td>{new Date(item.burrowingAt).toDateString}</td>
-              <td>{new Date(item.returnAt).toDateString}</td>
-              <td>{item.hasReturned}</td>
+              <td>{new Date(item.burrowingAt).toLocaleDateString()}</td>
+              <td>{new Date(item.returnAt).toLocaleDateString()}</td>
               <td>
-                <Button variant="primary">Return book</Button>
+                {item.hasReturned ? (
+                  <Button variant="warning">Give Review</Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    onClick={() => handleOnReturn(item)}
+                  >
+                    Return book
+                  </Button>
+                )}
               </td>
             </tr>
           ))}
