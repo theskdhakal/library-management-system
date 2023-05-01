@@ -4,8 +4,19 @@ import { Button, Container } from "react-bootstrap";
 import { UserLayout } from "../../components/layout/UserLayout";
 import { Link } from "react-router-dom";
 import { BookTable } from "../../components/book-table/BookTable";
+import { useSelector } from "react-redux";
 
 const Books = () => {
+  const { user } = useSelector((state) => state.user);
+  if (user.role !== "admin") {
+    return (
+      <PrivateRoute>
+        <UserLayout>
+          <h1>Unauthorize access</h1>
+        </UserLayout>
+      </PrivateRoute>
+    );
+  }
   return (
     <PrivateRoute>
       <UserLayout>
