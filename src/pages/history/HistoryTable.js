@@ -6,11 +6,15 @@ import {
   returnBookAction,
 } from "../../pages/book/bookAction";
 import { Button } from "react-bootstrap";
+import { setModalShow } from "../../system/systemSlice";
+import { CustomModal } from "../../components/custom-modal/CustomModal";
+import { GiveReview } from "../../components/give-review/GiveReview";
 
 export const HistoryTable = () => {
   const dispatch = useDispatch();
   const { book } = useSelector((state) => state.books);
   const { user } = useSelector((state) => state.user);
+  const [returnedBook, setReturnedBook] = useState({});
 
   const { burrowHistory } = useSelector((state) => state.books);
   //   console.log(user);
@@ -24,8 +28,15 @@ export const HistoryTable = () => {
     }
   };
 
+  const handleOnGiveReview = (obj) => {
+    setReturnedBook(obj);
+    dispatch(setModalShow(true));
+  };
   return (
     <>
+      <CustomModal heading="Provide Review">
+        <GiveReview returnedBook={returnedBook} />
+      </CustomModal>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -43,14 +54,14 @@ export const HistoryTable = () => {
               <td>{new Date(item.returnAt).toLocaleDateString()}</td>
               <td>
                 {item.hasReturned ? (
-                  <Button variant="warning">Give Review</Button>
-                ) : (
                   <Button
-                    variant="primary"
-                    onClick={() => handleOnReturn(item)}
+                    variant="warning"
+                    onClick={() => handleOnGiveReview(item)}
                   >
-                    Return book
+                    Give Review
                   </Button>
+                ) : (
+                  <Button variant="primary">Return book</Button>
                 )}
               </td>
             </tr>

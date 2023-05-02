@@ -178,3 +178,24 @@ export const returnBookAction = (bookId, bhId, userId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+//add reviews to db
+
+export const addReviewsAction = (data) => async (dispatch) => {
+  try {
+    console.log(data);
+
+    const result = await addDoc(collection(db, "reviews"), data);
+
+    console.log(result);
+
+    if (result?.id) {
+      toast.success("Review added successfully");
+      // dispatch(getReviewAction());
+      return;
+    }
+    toast.error("Unable to add review, try again later");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
