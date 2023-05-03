@@ -1,6 +1,6 @@
 import React from "react";
 import "./review.css";
-import { Rating } from "../rating/Rating";
+import { Rating } from "../../components/rating/Rating";
 
 export const Revies = ({ userName, title, feedback, ratings }) => {
   return (

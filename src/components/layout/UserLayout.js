@@ -31,6 +31,11 @@ export const UserLayout = ({ children }) => {
                     Clients
                   </Link>
                 </li>
+                <li>
+                  <Link className="nav-link" to="/reviews">
+                    Reviews
+                  </Link>
+                </li>
               </>
             )}
 

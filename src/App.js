@@ -16,6 +16,7 @@ import NewBook from "./pages/book/NewBook";
 import Books from "./pages/book/Books";
 import Clients from "./pages/clients/Clients";
 import BookLanding from "./pages/book/BookLanding";
+import Reviews from "./pages/review/Reviews";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="history" element={<History />} />
           <Route path="clients" element={<Clients />} />
+          <Route path="reviews" element={<Reviews />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

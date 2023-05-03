@@ -5,7 +5,7 @@ import {
   getBurrowBookAction,
   returnBookAction,
 } from "../../pages/book/bookAction";
-import { ReviewForm } from "../review/ReviewForm";
+import { ReviewForm } from "../../pages/review/ReviewForm";
 import { setModalShow } from "../../system/systemSlice";
 import { CustomModal } from "../custom-modal/CustomModal";
 import { Rating } from "../rating/Rating";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 
-import { CustomInpute } from "../custom-inpute/CustomInpute";
+import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
 import { useDispatch } from "react-redux";
 import { addNewReviewAction } from "../../pages/book/bookAction";
 
