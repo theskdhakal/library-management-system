@@ -1,8 +1,17 @@
 import Card from "react-bootstrap/Card";
 import { Rating } from "../rating/Rating";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const CustomCard = ({ name, year, title, id, url, rating }) => {
+  const { reviews } = useSelector((state) => state.books);
+
+  const allBook = reviews.filter((item) => item.bookId === id);
+  console.log(allBook + "ronish");
+
+  const rate = allBook?.length
+    ? allBook.reduce((acc, { ratings }) => acc + +ratings, 0) / allBook.length
+    : 5;
   return (
     <Link to={`/book/${id}`} className="nav-link">
       <Card style={{ width: "18rem" }}>
@@ -14,7 +23,7 @@ export const CustomCard = ({ name, year, title, id, url, rating }) => {
               {name} - {year}
             </h5>
 
-            <Rating rate={5} />
+            <Rating rate={rate} />
           </Card.Text>
         </Card.Body>
       </Card>

@@ -5,21 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Rating } from "../../components/rating/Rating";
 import { Revies } from "../../components/review/Revies";
-import { createNewBurrowBookAction } from "./bookAction";
+import { createNewBurrowBookAction, getSelectedBookReview } from "./bookAction";
+import { setReviews } from "./BookSlic";
 
 const BookLanding = () => {
   const dispatch = useDispatch();
   const { bookId } = useParams();
   const navigate = useNavigate();
 
-  const { book } = useSelector((state) => state.books);
+  const { book, reviews } = useSelector((state) => state.books);
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!book.length) {
       navigate("/");
     }
-  });
+
+    // fetch all reivew for this book
+    dispatch(getSelectedBookReview(bookId));
+
+    return () => {
+      dispatch(setReviews([]));
+    };
+  }, [bookId, dispatch, navigate, book.length]);
 
   const selectedBook = book.find((item) => item.id === bookId) || {};
 
@@ -46,6 +54,10 @@ const BookLanding = () => {
     alert("Please login to burrow the book");
   };
 
+  const rate = reviews?.length
+    ? reviews.reduce((acc, { ratings }) => acc + +ratings, 0) / reviews.length
+    : 5;
+  console.log(rate);
   return (
     <MainLayout>
       <Link to="/">
@@ -60,7 +72,7 @@ const BookLanding = () => {
             <h1>{title}</h1>
             <p>
               {name} - {year}
-              <Rating />
+              <Rating rate={rate} />
             </p>
             <p>
               {!user?.uid ? (
@@ -81,11 +93,10 @@ const BookLanding = () => {
           <Col>
             <h4>Reviews</h4>
             <div className="review-list">
-              <Revies />
-              <Revies />
-              <Revies />
-              <Revies />
-              <Revies />
+              {reviews.length < 1 && <h5 className="mt-5">No Reviews found</h5>}
+              {reviews.map((item) => (
+                <Revies key={item.id} {...item} />
+              ))}
             </div>
           </Col>
         </Row>

@@ -1,5 +1,5 @@
 :root {
-  --mainBg: rgb(136, 173, 245);
+  --mainBg: rgb(224, 234, 252);
 }
 
 body {
@@ -33,7 +33,7 @@ body {
 }
 
 .left {
-  color: rgb(253, 253, 253);
+  color: white;
   /* width: 30%; */
   min-width: 200px;
   position: fixed;
@@ -48,21 +48,9 @@ body {
 
 .sidbar li {
   list-style-type: none;
-  line-height: 3.5rem;
+  line-height: 3rem;
 }
 
 table {
   text-align: left;
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-}
-
-.grid-item {
-  background-color: #696565;
-  padding: 20px;
-  text-align: center;
 }

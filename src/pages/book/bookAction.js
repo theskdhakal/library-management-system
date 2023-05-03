@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { auth, db } from "../../config/firbease-config";
-import { setBook, setBurrowHistory } from "./BookSlic";
+import { setBook, setBurrowHistory, setReviews } from "./BookSlic";
 import { setModalShow } from "../../system/systemSlice";
 
 export const getAllBooksActions = () => async (dispatch) => {
@@ -40,7 +40,10 @@ export const getAllBooksActions = () => async (dispatch) => {
 
 export const addNewBookAction = (bookObj) => async (dispatch) => {
   try {
-    const docRef = await addDoc(collection(db, "books"), bookObj);
+    const docRef = await addDoc(collection(db, "books"), {
+      ...bookObj,
+      isAvailable: true,
+    });
     console.log(docRef);
 
     if (docRef?.id) {
@@ -119,6 +122,21 @@ export const createNewBurrowBookAction = (obj) => async (dispatch) => {
   }
 };
 
+//obh ={reviewId and ratings}
+export const updateBurrowBookAction =
+  ({ id, userId, ...obj }) =>
+  async (dispatch) => {
+    try {
+      await setDoc(doc(db, "burrow_history", id), obj, { merge: true });
+
+      //fetcing all the burrow history of the specific user only
+      dispatch(getBurrowBookAction(userId));
+      return;
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
 export const getBurrowBookAction = (userId) => async (dispatch) => {
   try {
     const q = query(
@@ -179,23 +197,83 @@ export const returnBookAction = (bookId, bhId, userId) => async (dispatch) => {
   }
 };
 
-//add reviews to db
+// Review =====
 
-export const addReviewsAction = (data) => async (dispatch) => {
+export const addNewReviewAction = (reviewObj) => async (dispatch) => {
   try {
-    console.log(data);
+    const { bookId, userId, burrowHistory, ratings } = reviewObj;
+    const docRef = await addDoc(collection(db, "reviews"), reviewObj);
 
-    const result = await addDoc(collection(db, "reviews"), data);
-
-    console.log(result);
-
-    if (result?.id) {
-      toast.success("Review added successfully");
-      // dispatch(getReviewAction());
+    if (docRef?.id) {
+      toast.success("New review has been added.");
+      //update burrow transaction table, add review id an score
+      const obj = {
+        id: burrowHistory,
+        userId,
+        reviewId: docRef.id,
+        ratings,
+      };
+      console.log(obj);
+      dispatch(updateBurrowBookAction(obj));
+      // now fetch all the review from database and mount to our redux
+      // dispatch(getAllReviewsActions());
       return;
     }
-    toast.error("Unable to add review, try again later");
+    toast.error("Error, unable to add the review.");
   } catch (error) {
-    toast.error(error.message);
+    //log the error
+    toast.error(
+      "Something went wrong, we could not process your request at the moment, please try again later."
+    );
+  }
+};
+
+export const getSelectedBookReview = (bookId) => async (dispatch) => {
+  try {
+    const q = query(collection(db, "reviews"), where("bookId", "==", bookId));
+
+    const { docs } = await getDocs(q);
+
+    console.log(docs);
+
+    if (docs.length) {
+      let reviews = [];
+      docs.forEach((doc) => {
+        const reviewObj = { id: doc.id, ...doc.data() };
+        reviews.push(reviewObj);
+      });
+
+      dispatch(setReviews(reviews));
+    }
+  } catch (error) {
+    //log the error
+    console.log(error);
+    toast.error(
+      "Something went wrong, we could not process your request at the moment, please try again later."
+    );
+  }
+};
+
+//get all reviews from store============
+export const getAllReviewActions = () => async (dispatch) => {
+  try {
+    //define search query
+    const q = query(collection(db, "reviews"));
+
+    // run query to get data
+    let reviews = [];
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      reviews.push({
+        ...doc.data(),
+        id: doc.id,
+      });
+    });
+
+    console.log(reviews);
+
+    dispatch(setReviews(reviews));
+  } catch (error) {
+    console.log(error);
   }
 };

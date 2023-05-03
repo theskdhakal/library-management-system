@@ -4,20 +4,21 @@ import { HomeCarousel } from "../../components/carousel/HomeCarousel";
 import { Col, Container, Row } from "react-bootstrap";
 import { CustomCard } from "../../components/custom-card/CustomCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBooksActions } from "../book/bookAction";
+import { getAllBooksActions, getAllReviewActions } from "../book/bookAction";
 import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
+import { setReviews } from "../book/BookSlic";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [display, setDisplay] = useState([]);
-  const { book } = useSelector((state) => state.books);
+  const { book, review } = useSelector((state) => state.books);
 
   useEffect(() => {
     !display.length && dispatch(getAllBooksActions());
     setDisplay(book);
-  }, [dispatch, book]);
 
-  // on handle change get typed value
+    dispatch(getAllReviewActions());
+  }, [dispatch, book]);
 
   const handleOnChange = (e) => {
     const { value } = e.target;

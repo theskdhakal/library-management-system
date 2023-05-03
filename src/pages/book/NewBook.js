@@ -31,7 +31,7 @@ const NewBook = () => {
       required: true,
     },
     {
-      label: "Author Name",
+      label: "Auther Name",
       name: "name",
       type: "text",
       placeholder: "Sam smith",

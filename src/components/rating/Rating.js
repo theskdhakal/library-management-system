@@ -2,7 +2,7 @@ import React from "react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 const maxtRate = 5;
 
-export const Rating = ({ rate = 3 }) => {
+export const Rating = ({ rate = 5 }) => {
   const hasDecimalValue = rate % 1;
 
   const fullRateStar = Math.floor(rate);

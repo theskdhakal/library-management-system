@@ -10,7 +10,7 @@ const Clients = () => {
     return (
       <PrivateRoute>
         <UserLayout>
-          <h1>Unauthorize access</h1>
+          <h1>Unauthrize access</h1>
         </UserLayout>
       </PrivateRoute>
     );

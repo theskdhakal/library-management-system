@@ -15,7 +15,6 @@ import Profile from "./pages/signup-signin/Profile";
 import NewBook from "./pages/book/NewBook";
 import Books from "./pages/book/Books";
 import Clients from "./pages/clients/Clients";
-import Reviews from "./pages/review/Reviews";
 import BookLanding from "./pages/book/BookLanding";
 
 function App() {
@@ -43,7 +42,6 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="history" element={<History />} />
           <Route path="clients" element={<Clients />} />
-          <Route path="reviews" element={<Reviews />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
