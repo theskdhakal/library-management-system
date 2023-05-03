@@ -262,6 +262,7 @@ export const getAllReviewActions = () => async (dispatch) => {
 
     // run query to get data
     let reviews = [];
+    // const { userId, ...rest } = doc.data();
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       reviews.push({

@@ -1,4 +1,11 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import { auth, db } from "../../config/firbease-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -42,4 +49,28 @@ export const loginUser = (data) => async (dispatch) => {
   } catch (error) {
     toast.error(error.message);
   }
+};
+
+//get all user from the firebase store
+export const getAllUserAction = () => async (dispatch) => {
+  try {
+    //define search query
+
+    const q = query(collection(db, "users"));
+
+    //run query to get data
+    let users = [];
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      users.push({
+        ...doc.data(),
+        id: doc.id,
+      });
+    });
+
+    dispatch(setUser(users));
+
+    console.log(users + "abcd");
+  } catch (error) {}
 };
