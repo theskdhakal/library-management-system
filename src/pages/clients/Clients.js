@@ -8,11 +8,9 @@ import { getAllUserAction } from "../signup-signin/userAction";
 const Clients = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    dispatch(getAllUserAction());
-  }, [dispatch]);
-
+  // useEffect(() => {
+  //   dispatch(getAllUserAction());
+  // }, [dispatch]);
   if (user.role !== "admin") {
     return (
       <PrivateRoute>
@@ -27,7 +25,6 @@ const Clients = () => {
       <UserLayout>
         <Container>
           <h3>Clients</h3>
-
           <hr />
         </Container>
       </UserLayout>
