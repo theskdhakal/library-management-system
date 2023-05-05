@@ -76,3 +76,18 @@ export const getAllUserAction = () => async (dispatch) => {
     console.log("error in getting all users", error);
   }
 };
+
+/////updating the user's info in fire db
+
+export const updateUserAction =
+  ({ id, ...rest }) =>
+  async (dispatch) => {
+    try {
+      console.log(id, rest);
+
+      await setDoc(doc, (db, "users", id));
+      dispatch(getAllUserAction());
+    } catch (error) {
+      console.log("something went wrong, please come back later");
+    }
+  };
