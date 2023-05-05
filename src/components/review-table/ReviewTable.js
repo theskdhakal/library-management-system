@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Rating } from "../rating/Rating";
+import { getAllReviewActions } from "../../pages/book/bookAction";
 
 export const ReviewTable = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,10 @@ export const ReviewTable = () => {
   const rate = reviews?.length
     ? reviews.reduce((acc, { ratings }) => acc + +ratings, 0) / reviews.length
     : 5;
+
+  useEffect(() => {
+    dispatch(getAllReviewActions());
+  }, [dispatch]);
 
   return (
     <Table striped bordered hover>

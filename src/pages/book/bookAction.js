@@ -30,8 +30,6 @@ export const getAllBooksActions = () => async (dispatch) => {
       });
     });
 
-    console.log(books);
-
     dispatch(setBook(books));
   } catch (error) {
     console.log(error);

@@ -9,7 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { auth, db } from "../../config/firbease-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { setUser } from "./userSlic";
+import { setClients, setUser } from "./userSlic";
 
 export const getUserAction = (uid) => async (dispatch) => {
   try {
@@ -17,7 +17,6 @@ export const getUserAction = (uid) => async (dispatch) => {
 
     const docSnap = await getDoc(doc(db, "users", uid));
 
-    console.log(docSnap);
     //dispatch user to the reduxt
 
     if (docSnap.exists()) {
@@ -42,7 +41,6 @@ export const loginUser = (data) => async (dispatch) => {
     });
 
     const { user } = await pendingUser;
-
     if (user.uid) {
       dispatch(getUserAction(user.uid));
     }
@@ -58,19 +56,23 @@ export const getAllUserAction = () => async (dispatch) => {
 
     const q = query(collection(db, "users"));
 
+    console.log(db);
+
     //run query to get data
-    let users = [];
+    let allUsers = [];
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      users.push({
+      allUsers.push({
         ...doc.data(),
         id: doc.id,
       });
     });
 
-    dispatch(setUser(users));
+    console.log(allUsers);
 
-    console.log(users + "abcd");
-  } catch (error) {}
+    dispatch(setClients(allUsers));
+  } catch (error) {
+    console.log("error in getting all users", error);
+  }
 };

@@ -7,7 +7,6 @@ export const CustomCard = ({ name, year, title, id, url, rating }) => {
   const { reviews } = useSelector((state) => state.books);
 
   const allBook = reviews.filter((item) => item.bookId === id);
-  console.log(allBook + "ronish");
 
   const rate = allBook?.length
     ? allBook.reduce((acc, { ratings }) => acc + +ratings, 0) / allBook.length

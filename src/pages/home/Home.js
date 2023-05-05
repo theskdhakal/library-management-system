@@ -4,9 +4,8 @@ import { HomeCarousel } from "../../components/carousel/HomeCarousel";
 import { Col, Container, Row } from "react-bootstrap";
 import { CustomCard } from "../../components/custom-card/CustomCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBooksActions, getAllReviewActions } from "../book/bookAction";
+import { getAllBooksActions } from "../book/bookAction";
 import { CustomInpute } from "../../components/custom-inpute/CustomInpute";
-import { setReviews } from "../book/BookSlic";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -16,8 +15,6 @@ const Home = () => {
   useEffect(() => {
     !display.length && dispatch(getAllBooksActions());
     setDisplay(book);
-
-    dispatch(getAllReviewActions());
   }, [dispatch, book]);
 
   const handleOnChange = (e) => {

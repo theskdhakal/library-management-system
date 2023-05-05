@@ -4,13 +4,16 @@ import { Container } from "react-bootstrap";
 import { UserLayout } from "../../components/layout/UserLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUserAction } from "../signup-signin/userAction";
+import { ClientTable } from "../../components/client-table/ClientTable";
 
 const Clients = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  // useEffect(() => {
-  //   dispatch(getAllUserAction());
-  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getAllUserAction());
+  }, [dispatch]);
+
   if (user.role !== "admin") {
     return (
       <PrivateRoute>
@@ -26,6 +29,7 @@ const Clients = () => {
         <Container>
           <h3>Clients</h3>
           <hr />
+          <ClientTable />
         </Container>
       </UserLayout>
     </PrivateRoute>
