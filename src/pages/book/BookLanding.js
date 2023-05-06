@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Rating } from "../../components/rating/Rating";
-import { Revies } from "../../pages/review/Revies";
+import { Revies } from "../review/Revies";
 import { createNewBurrowBookAction, getSelectedBookReview } from "./bookAction";
 import { setReviews } from "./BookSlic";
 
