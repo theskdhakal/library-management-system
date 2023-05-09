@@ -85,9 +85,10 @@ export const updateUserAction =
     try {
       console.log(id, rest);
 
-      await setDoc(doc, (db, "users", id));
-      dispatch(getAllUserAction());
+      await setDoc(doc(db, "users", id), rest, { merge: true });
+      dispatch(getUserAction(id));
+      toast.success("your profile updated successfully");
     } catch (error) {
-      console.log("something went wrong, please come back later");
+      console.log(error.message);
     }
   };

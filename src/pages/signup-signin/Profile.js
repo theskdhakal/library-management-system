@@ -8,18 +8,19 @@ import { getUserAction, updateUserAction } from "./userAction";
 import { EditProfile } from "../../components/edit-profile/EditProfile";
 
 const Profile = () => {
+  const [form, setForm] = useState();
   const dispatch = useDispatch();
 
-  // const handleOnChange = (e) => {
-  //   const { name, value } = e.target;
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
 
-  //   setForm({ ...form, [name]: value });
-  // };
+    setForm({ ...form, [name]: value });
+  };
 
-  // const handleOnSubmit = (e) => {
-  //   e.preventDefault();
-  //   dispatch(updateUserAction());
-  // };
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateUserAction());
+  };
 
   return (
     <PrivateRoute>

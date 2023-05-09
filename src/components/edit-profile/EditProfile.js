@@ -6,6 +6,9 @@ import {
   getUserAction,
   updateUserAction,
 } from "../../pages/signup-signin/userAction";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "react-toastify";
+import { auth } from "../../config/firbease-config";
 
 export const EditProfile = () => {
   const dispatch = useDispatch();
@@ -19,8 +22,12 @@ export const EditProfile = () => {
   console.log(currentUser);
 
   useEffect(() => {
-    dispatch(getUserAction());
-  }, [dispatch]);
+    setForm(user);
+  }, [user]);
+
+  // useEffect(() => {
+  //   dispatch(getUserAction());
+  // }, [dispatch]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -30,19 +37,51 @@ export const EditProfile = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    const { email, role, uid, ...rest } = form;
     if (window.confirm("Are you sure, you want to update your profile?")) {
-      dispatch(updateUserAction(form));
+      const obj = {
+        id: uid,
+        ...rest,
+      };
+      console.log(obj);
+      dispatch(updateUserAction(obj));
+    }
+  };
+
+  const handleOnPasswordReset = () => {
+    try {
+      if (window.confirm("sure?")) {
+        //firebase sends emails with pwd reset link
+
+        sendPasswordResetEmail(auth, form.email)
+          .then((resp) => {
+            console.log(resp);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
   const inputs = [
     {
-      label: "First Name",
+      label: "user role",
+      name: "role",
+      type: "text",
+      required: true,
+      value: form.role,
+      disabled: true,
+    },
+    {
+      label: "first Name",
       name: "fName",
       type: "text",
       placeholder: "Sam smith",
       required: true,
-      value: currentUser?.fName,
+      value: form?.fName,
     },
     {
       label: "Last Name",
@@ -50,7 +89,7 @@ export const EditProfile = () => {
       type: "text",
       placeholder: "Sam smith",
       required: true,
-      value: currentUser?.lName,
+      value: form?.lName,
     },
     {
       label: "Email",
@@ -58,21 +97,8 @@ export const EditProfile = () => {
       type: "email",
       placeholder: "Samsmith@email.com",
       required: true,
-      value: currentUser?.email,
-    },
-    {
-      label: "New Password",
-      name: "password",
-      type: "password",
-      placeholder: "xxxxxxxxxx",
-      required: true,
-    },
-    {
-      label: "Confirm New Password",
-      name: "confirmPassword",
-      type: "password",
-      placeholder: "xxxxxxxxxx",
-      required: true,
+      value: form?.email,
+      disabled: true,
     },
   ];
 
@@ -88,7 +114,7 @@ export const EditProfile = () => {
         <Form.Text>update your profile in the form given below</Form.Text>
         <div className="mt-5">
           {inputs.map((item, i) => (
-            <CustomInpute key={i} {...item} OnChange={handleOnChange} />
+            <CustomInpute key={i} {...item} onChange={handleOnChange} />
           ))}
 
           <div className="d-grid">
@@ -98,6 +124,12 @@ export const EditProfile = () => {
           </div>
         </div>
       </Form>
+
+      <div className="d-grid mt-4">
+        <Button variant="danger" type="submit">
+          Request reset password reset email
+        </Button>
+      </div>
     </Container>
   );
 };
